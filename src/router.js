@@ -25,8 +25,7 @@ import AppSidebar from './views/AppSidebar.vue'
 import Calendar from './views/AppContent/Calendar.vue'
 import Collections from './views/AppContent/Collections.vue'
 
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createWebHashHistory, createRouter } from 'vue-router'
 
 const routes = [
 	// using
@@ -63,9 +62,9 @@ const routes = [
 	},
 ]
 
-Vue.use(VueRouter)
-
-export default new VueRouter({
-	linkActiveClass: 'active',
-	routes, // short for `routes: routes`
+const router = createRouter({
+	history: createWebHashHistory(),
+	routes,
 })
+
+export default router

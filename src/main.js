@@ -25,7 +25,6 @@ import App from './App.vue'
 import router from './router.js'
 import store from './store/store.js'
 
-import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { linkTo } from '@nextcloud/router'
 
 import AlertBoxOutline from 'vue-material-design-icons/AlertBoxOutline'
@@ -39,14 +38,14 @@ import Pulse from 'vue-material-design-icons/Pulse'
 import Tag from 'vue-material-design-icons/Tag'
 import TrendingUp from 'vue-material-design-icons/TrendingUp'
 
-import Vue from 'vue'
+import { createApp } from 'vue'
 import { sync } from 'vuex-router-sync'
 // eslint-disable-next-line import/no-named-as-default
-import VueClipboard from 'vue-clipboard2'
+// import VueClipboard from 'vue-clipboard2'
 
 // Disable on production
-Vue.config.devtools = true
-Vue.config.performance = true
+// Vue.config.devtools = true
+// Vue.config.performance = true
 
 // CSP config for webpack dynamic chunk loading
 // eslint-disable-next-line
@@ -61,33 +60,7 @@ __webpack_public_path__ = linkTo('tasks', 'js/')
 
 sync(store, router)
 
-Vue.use(VueClipboard)
-
-/**
- * We have to globally register these material design icons
- * so we can use them dynamically via `<component :is="icon" />`
- * in the MultiselectOption component.
- */
-// eslint-disable-next-line vue/match-component-file-name
-Vue.component('IconAlertBoxOutline', AlertBoxOutline)
-// eslint-disable-next-line vue/match-component-file-name
-Vue.component('IconCalendarRemove', CalendarRemove)
-// eslint-disable-next-line vue/match-component-file-name
-Vue.component('IconCancel', Cancel)
-// eslint-disable-next-line vue/match-component-file-name
-Vue.component('IconCheck', Check)
-// eslint-disable-next-line vue/match-component-file-name
-Vue.component('IconDelete', Delete)
-// eslint-disable-next-line vue/match-component-file-name
-Vue.component('IconEye', Eye)
-// eslint-disable-next-line vue/match-component-file-name
-Vue.component('IconEyeOff', EyeOff)
-// eslint-disable-next-line vue/match-component-file-name
-Vue.component('IconPulse', Pulse)
-// eslint-disable-next-line vue/match-component-file-name
-Vue.component('IconTag', Tag)
-// eslint-disable-next-line vue/match-component-file-name
-Vue.component('IconTrendingUp', TrendingUp)
+// Vue.use(VueClipboard)
 
 if (!OCA.Tasks) {
 	/**
@@ -96,41 +69,23 @@ if (!OCA.Tasks) {
 	OCA.Tasks = {}
 }
 
-Vue.prototype.$OC = OC
-Vue.prototype.$OCA = OCA
-Vue.prototype.$appVersion = appVersion
+// Vue.prototype.$OC = OC
+// Vue.prototype.$OCA = OCA
+// Vue.prototype.$appVersion = appVersion
 
-OCA.Tasks.App = new Vue({
-	el: '.app-tasks',
-	router,
-	store,
-	data() {
-		return {
-			searchString: '',
-		}
-	},
-	mounted() {
-		subscribe('nextcloud:unified-search.search', this.filterProxy)
-		subscribe('nextcloud:unified-search.reset', this.cleanSearch)
-	},
-	beforeMount() {
-		this.$store.dispatch('loadCollections')
-		this.$store.dispatch('loadSettings')
-	},
-	beforeDestroy() {
-		unsubscribe('nextcloud:unified-search.search', this.filterProxy)
-		unsubscribe('nextcloud:unified-search.reset', this.cleanSearch)
-	},
-	methods: {
-		filterProxy({ query }) {
-			this.filter(query)
-		},
-		filter(query) {
-			this.$store.commit('setSearchQuery', query)
-		},
-		cleanSearch() {
-			this.$store.commit('setSearchQuery', '')
-		},
-	},
-	render: h => h(App),
-})
+const Tasks = createApp(App)
+	.component('IconAlertBoxOutline', AlertBoxOutline)
+	.component('IconCalendarRemove', CalendarRemove)
+	.component('IconCancel', Cancel)
+	.component('IconCheck', Check)
+	.component('IconDelete', Delete)
+	.component('IconEye', Eye)
+	.component('IconEyeOff', EyeOff)
+	.component('IconPulse', Pulse)
+	.component('IconTag', Tag)
+	.component('IconTrendingUp', TrendingUp)
+	.use(router)
+	.use(store)
+	.mount('.app-tasks')
+
+OCA.Tasks.App = Tasks

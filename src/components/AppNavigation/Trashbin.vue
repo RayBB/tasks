@@ -53,8 +53,8 @@ License along with this library. If not, see <http://www.gnu.org/licenses/>.
 							<div class="table__header">
 								&nbsp;
 							</div>
-							<template v-for="item in items">
-								<div :key="`${item.url}desc`" class="table__body">
+							<template v-for="item in items" :key="`${item.url}body`">
+								<div class="table__body">
 									<div class="icon-bullet"
 										:style="{ 'background-color': item.color }" />
 									<div class="item-description">
@@ -66,10 +66,10 @@ License along with this library. If not, see <http://www.gnu.org/licenses/>.
 										</div>
 									</div>
 								</div>
-								<div :key="`${item.url}date`" class="table__body table__body--deletedAt">
+								<div class="table__body table__body--deletedAt">
 									<Moment class="timestamp" :timestamp="item.deletedAt" />
 								</div>
-								<div :key="`${item.url}action`" class="table__body">
+								<div class="table__body">
 									<button @click="restore(item)">
 										{{ t('tasks','Restore') }}
 									</button>

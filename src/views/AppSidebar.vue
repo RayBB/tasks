@@ -20,14 +20,14 @@ License along with this library. If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <template>
-	<AppSidebar :title="title"
+	<AppSidebar v-model:active="activeTab"
+		:title="title"
 		:title-editable="editingTitle"
 		:linkify-title="true"
 		:subtitle="subtitle"
 		:title-tooltip="title"
 		:subtitle-tooltip="subtitleTooltip"
 		:empty="!task"
-		:active.sync="activeTab"
 		@start-editing="newTitle = task.summary"
 		@update:titleEditable="editTitle"
 		@update:title="updateTitle"
@@ -720,7 +720,7 @@ export default {
 		subscribe('tasks:close-appsidebar', this.closeAppSidebar)
 		subscribe('tasks:open-appsidebar-tab', this.openAppSidebarTab)
 	},
-	beforeDestroy() {
+	beforeUnmount() {
 		unsubscribe('tasks:close-appsidebar', this.closeAppSidebar)
 		unsubscribe('tasks:open-appsidebar-tab', this.openAppSidebarTab)
 	},

@@ -112,6 +112,7 @@ export default {
 			default: '',
 		},
 	},
+	emits: ['close'],
 	data() {
 		return {
 			pendingTitle: '',

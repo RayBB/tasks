@@ -21,9 +21,9 @@ License along with this library. If not, see <http://www.gnu.org/licenses/>.
 
 <template>
 	<Content app-name="tasks">
-		<AppNavigation @click.native="closeAppSidebar($event)" />
+		<AppNavigation @click="closeAppSidebar($event)" />
 
-		<AppContent @click.native="closeAppSidebar($event)">
+		<AppContent @click="closeAppSidebar($event)">
 			<RouterView />
 		</AppContent>
 
@@ -35,7 +35,7 @@ License along with this library. If not, see <http://www.gnu.org/licenses/>.
 import AppNavigation from './views/AppNavigation.vue'
 import client from './services/cdav.js'
 
-import { emit } from '@nextcloud/event-bus'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { translate as t } from '@nextcloud/l10n'
 import AppContent from '@nextcloud/vue/dist/Components/AppContent'
 import Content from '@nextcloud/vue/dist/Components/Content'
@@ -49,12 +49,27 @@ export default {
 		AppContent,
 		Content,
 	},
+	data() {
+		return {
+			searchString: '',
+		}
+	},
 	computed: {
 		...mapGetters({
 			calendars: 'getTaskCalendars',
 		}),
 	},
+	mounted() {
+		subscribe('nextcloud:unified-search.search', this.filterProxy)
+		subscribe('nextcloud:unified-search.reset', this.cleanSearch)
+	},
+	beforeUnmount() {
+		unsubscribe('nextcloud:unified-search.search', this.filterProxy)
+		unsubscribe('nextcloud:unified-search.reset', this.cleanSearch)
+	},
 	async beforeMount() {
+		this.$store.dispatch('loadCollections')
+		this.$store.dispatch('loadSettings')
 		// get calendars then get tasks
 		await client.connect({ enableCalDAV: true })
 		await this.$store.dispatch('fetchCurrentUserPrincipal')
@@ -104,6 +119,15 @@ export default {
 			if (!($event.target.closest('.reactive') || $event.target.classList.contains('reactive')) && this.$route.params.taskId) {
 				emit('tasks:close-appsidebar')
 			}
+		},
+		filterProxy({ query }) {
+			this.filter(query)
+		},
+		filter(query) {
+			this.$store.commit('setSearchQuery', query)
+		},
+		cleanSearch() {
+			this.$store.commit('setSearchQuery', '')
 		},
 	},
 }

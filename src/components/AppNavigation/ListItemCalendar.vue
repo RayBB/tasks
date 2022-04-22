@@ -27,10 +27,10 @@ License along with this library. If not, see <http://www.gnu.org/licenses/>.
 		:title="calendar.displayName"
 		:class="{'list--edit': editing, 'list--deleted': !!deleteTimeout}"
 		class="list reactive"
-		@drop.native="dropTask"
-		@dragover.native="dragOver"
-		@dragenter.native="dragEnter"
-		@dragleave.native="dragLeave">
+		@drop="dropTask"
+		@dragover="dragOver"
+		@dragenter="dragEnter"
+		@dragleave="dragLeave">
 		<template #icon>
 			<AppNavigationIconBullet :color="calendar.color" />
 		</template>
@@ -160,7 +160,7 @@ import Pencil from 'vue-material-design-icons/Pencil'
 import ShareVariant from 'vue-material-design-icons/ShareVariant'
 import Undo from 'vue-material-design-icons/Undo'
 
-import ClickOutside from 'v-click-outside'
+import ClickOutside from 'click-outside-vue3'
 import { mapGetters, mapActions } from 'vuex'
 
 const CD_DURATION = 7

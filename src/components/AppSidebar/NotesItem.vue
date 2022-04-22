@@ -34,7 +34,7 @@ License along with this library. If not, see <http://www.gnu.org/licenses/>.
 				<pre><span>{{ newValue }}</span><br><br></pre>
 				<textarea ref="note__editor"
 					v-model="newValue"
-					@keyup.27="setEditing(false)"
+					@keyup.escape="setEditing(false)"
 					@keydown.enter.ctrl.prevent="setValue()"
 					@change="setValue()" />
 			</div>
@@ -52,7 +52,7 @@ import Mila from 'markdown-it-link-attributes'
 import MarkdownItEmoji from 'markdown-it-emoji'
 import Mitl from 'markdown-it-task-lists'
 
-import ClickOutside from 'v-click-outside'
+import ClickOutside from 'click-outside-vue3'
 
 export default {
 	name: 'NotesItem',

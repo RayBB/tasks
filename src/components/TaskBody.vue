@@ -149,7 +149,7 @@ License along with this library. If not, see <http://www.gnu.org/licenses/>.
 						v-model="newTaskName"
 						:placeholder="subtasksCreationPlaceholder"
 						:disabled="isAddingTask"
-						@keyup.27="showSubtaskInput = false">
+						@keyup.escape="showSubtaskInput = false">
 				</form>
 			</div>
 			<TaskDragContainer :tasks="filteredSubtasksShown"
@@ -184,7 +184,7 @@ import SortVariant from 'vue-material-design-icons/SortVariant'
 import Star from 'vue-material-design-icons/Star'
 import Undo from 'vue-material-design-icons/Undo'
 
-import ClickOutside from 'v-click-outside'
+import ClickOutside from 'click-outside-vue3'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {

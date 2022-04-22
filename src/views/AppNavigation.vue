@@ -31,11 +31,11 @@ License along with this library. If not, see <http://www.gnu.org/licenses/>.
 				:title="collection.displayName"
 				class="collection reactive"
 				draggable="false"
-				@dragstart.native="dragStart"
-				@drop.native="dropTaskOnCollection(...arguments, collection)"
-				@dragover.native="dragOver"
-				@dragenter.native="dragEnter(...arguments, collection)"
-				@dragleave.native="dragLeave"
+				@dragstart="dragStart"
+				@drop="dropTaskOnCollection(...arguments, collection)"
+				@dragover="dragOver"
+				@dragenter="dragEnter(...arguments, collection)"
+				@dragleave="dragLeave"
 				@click="setInitialRoute(`/collections/${collection.id}`)">
 				<template #icon>
 					<component :is="collection.icon"
@@ -54,7 +54,7 @@ License along with this library. If not, see <http://www.gnu.org/licenses/>.
 				<ListItemCalendar v-for="calendar in calendars"
 					:key="calendar.id"
 					:calendar="calendar"
-					@click.native="setInitialRoute(`/calendars/${calendar.id}`)" />
+					@click="setInitialRoute(`/calendars/${calendar.id}`)" />
 			</draggable>
 			<AppNavigationItem v-click-outside="cancelCreate"
 				:title="t('tasks', 'Add List…')"
@@ -120,7 +120,7 @@ import Star from 'vue-material-design-icons/Star'
 import TrendingUp from 'vue-material-design-icons/TrendingUp'
 
 import draggable from 'vuedraggable'
-import ClickOutside from 'v-click-outside'
+import ClickOutside from 'click-outside-vue3'
 import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -184,6 +184,17 @@ export default {
 			'setSetting',
 			'setCalendarOrder',
 		]),
+
+		counterFormatter(count) {
+			switch (false) {
+			case count !== 0:
+				return ''
+			case count < 999:
+				return '999+'
+			default:
+				return count
+			}
+		},
 
 		/**
 		 * Format the task counter

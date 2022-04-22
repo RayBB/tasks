@@ -27,7 +27,7 @@ import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import Check from 'vue-material-design-icons/Check'
 import Delete from 'vue-material-design-icons/Delete'
 
-import ClickOutside from 'v-click-outside'
+import ClickOutside from 'click-outside-vue3'
 
 export default {
 	components: {

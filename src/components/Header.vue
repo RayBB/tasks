@@ -29,7 +29,7 @@ License along with this library. If not, see <http://www.gnu.org/licenses/>.
 					:placeholder="placeholder"
 					autocomplete="off"
 					class="transparent reactive"
-					@keyup.27="clearNewTask($event)">
+					@keyup.escape="clearNewTask($event)">
 			</form>
 		</div>
 		<SortorderDropdown />

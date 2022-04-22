@@ -41,8 +41,6 @@ import router from '../router.js'
 import { detectColor, uidToHexColor } from '../utils/color.js'
 import { mapCDavObjectToCalendarObject } from '../models/calendarObject.js'
 
-import Vue from 'vue'
-
 const calendarModel = {
 	id: '',
 	color: '',
@@ -511,7 +509,7 @@ const mutations = {
 			if (list[task.uid]) {
 				console.debug('Duplicate task overridden', list[task.uid], task)
 			}
-			Vue.set(list, task.uid, task)
+			list[task.uid] = task
 			return list
 		}, calendar.tasks)
 
@@ -524,7 +522,7 @@ const mutations = {
 	 * @param {Task} task The task to add
 	 */
 	addTaskToCalendar(state, task) {
-		Vue.set(task.calendar.tasks, task.uid, task)
+		task.calendar.tasks[task.uid] = task
 	},
 
 	/**
@@ -534,7 +532,7 @@ const mutations = {
 	 * @param {Task} task The task to delete
 	 */
 	deleteTaskFromCalendar(state, task) {
-		Vue.delete(task.calendar.tasks, task.uid)
+		delete task.calendar.tasks[task.uid]
 	},
 
 	/**
@@ -601,7 +599,7 @@ const mutations = {
 	 * @param {number} data.order The sort order
 	 */
 	setCalendarOrder(state, { calendar, order }) {
-		Vue.set(calendar, 'order', order)
+		calendar.order = order
 	},
 }
 
@@ -850,7 +848,7 @@ const actions = {
 				// so we need to parse one by one
 				const tasks = response.map(item => {
 					const task = new Task(item.data, calendar)
-					Vue.set(task, 'dav', item)
+					task.dav = item
 					return task
 				})
 
@@ -867,7 +865,7 @@ const actions = {
 							if (list[task.uid]) {
 								console.debug('Duplicate task overridden', list[task.uid], task)
 							}
-							Vue.set(list, task.uid, task)
+							list[task.uid] = task
 							return list
 						}, parent.subTasks)
 
@@ -892,7 +890,7 @@ const actions = {
 					const parent = Object.values(calendar.tasks).find(search => search.uid === related)
 					if (parent) {
 						parent.loadedCompleted = true
-						tasks.map(task => Vue.set(parent.subTasks, task.uid, task))
+						tasks.forEach(task => { parent.subTasks[task.uid] = task })
 					}
 				}
 

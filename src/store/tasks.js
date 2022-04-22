@@ -34,10 +34,6 @@ import { translate as t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 
 import ICAL from 'ical.js'
-import Vue from 'vue'
-import Vuex from 'vuex'
-
-Vue.use(Vuex)
 
 const state = {
 	tasks: {},
@@ -307,7 +303,7 @@ const mutations = {
 	appendTasks(state, tasks = []) {
 		state.tasks = tasks.reduce(function(list, task) {
 			if (task instanceof Task) {
-				Vue.set(list, task.key, task)
+				list[task.key] = task
 			} else {
 				console.error('Wrong task object', task)
 			}
@@ -322,7 +318,7 @@ const mutations = {
 	 * @param {Task} task The task to append
 	 */
 	appendTask(state, task) {
-		Vue.set(state.tasks, task.key, task)
+		state.tasks[task.key] = task
 	},
 
 	/**
@@ -333,7 +329,7 @@ const mutations = {
 	 */
 	deleteTask(state, task) {
 		if (state.tasks[task.key] && task instanceof Task) {
-			Vue.delete(state.tasks, task.key)
+			delete state.tasks[task.key]
 		}
 	},
 
@@ -349,7 +345,7 @@ const mutations = {
 		if (task instanceof Task) {
 			// Remove task from parents subTask list if necessary
 			if (task.related && parent) {
-				Vue.delete(parent.subTasks, task.uid)
+				delete parent.subTasks[task.uid]
 			}
 		}
 	},
@@ -364,7 +360,7 @@ const mutations = {
 	 */
 	addTaskToParent(state, { task, parent }) {
 		if (task.related && parent) {
-			Vue.set(parent.subTasks, task.uid, task)
+			parent.subTasks[task.uid] = task
 		}
 	},
 
@@ -377,7 +373,7 @@ const mutations = {
 	 * @param {number} data.complete The complete value
 	 */
 	setComplete(state, { task, complete }) {
-		Vue.set(task, 'complete', complete)
+		task.complete = complete
 	},
 
 	/**
@@ -388,9 +384,9 @@ const mutations = {
 	 */
 	toggleStarred(state, task) {
 		if (+task.priority < 1 || +task.priority > 4) {
-			Vue.set(task, 'priority', 1)
+			task.priority = 1
 		} else {
-			Vue.set(task, 'priority', 0)
+			task.priority = 0
 		}
 	},
 
@@ -401,7 +397,7 @@ const mutations = {
 	 * @param {Task} task The task
 	 */
 	togglePinned(state, task) {
-		Vue.set(task, 'pinned', !task.pinned)
+		task.pinned = !task.pinned
 	},
 
 	/**
@@ -411,7 +407,7 @@ const mutations = {
 	 * @param {Task} task The task
 	 */
 	toggleSubtasksVisibility(state, task) {
-		Vue.set(task, 'hideSubtasks', !task.hideSubtasks)
+		task.hideSubtasks = !task.hideSubtasks
 	},
 
 	/**
@@ -421,7 +417,7 @@ const mutations = {
 	 * @param {Task} task The task
 	 */
 	toggleCompletedSubtasksVisibility(state, task) {
-		Vue.set(task, 'hideCompletedSubtasks', !task.hideCompletedSubtasks)
+		task.hideCompletedSubtasks = !task.hideCompletedSubtasks
 	},
 
 	/**
@@ -433,7 +429,7 @@ const mutations = {
 	 * @param {string} data.summary The summary
 	 */
 	setSummary(state, { task, summary }) {
-		Vue.set(task, 'summary', summary)
+		task.summary = summary
 	},
 
 	/**
@@ -445,7 +441,7 @@ const mutations = {
 	 * @param {string} data.note The note
 	 */
 	setNote(state, { task, note }) {
-		Vue.set(task, 'note', note)
+		task.note = note
 	},
 
 	/**
@@ -457,7 +453,7 @@ const mutations = {
 	 * @param {Array} data.tags The array of tags
 	 */
 	setTags(state, { task, tags }) {
-		Vue.set(task, 'tags', tags)
+		task.tags = tags
 	},
 
 	/**
@@ -469,7 +465,7 @@ const mutations = {
 	 * @param {string} data.tag The tag to add
 	 */
 	addTag(state, { task, tag }) {
-		Vue.set(task, 'tags', task.tags.concat([tag]))
+		task.tags = task.tags.concat([tag])
 	},
 
 	/**
@@ -481,7 +477,7 @@ const mutations = {
 	 * @param {string} data.priority The priority
 	 */
 	setPriority(state, { task, priority }) {
-		Vue.set(task, 'priority', priority)
+		task.priority = priority
 	},
 
 	/**
@@ -493,7 +489,7 @@ const mutations = {
 	 * @param {string} data.classification The classification
 	 */
 	setClassification(state, { task, classification }) {
-		Vue.set(task, 'class', classification)
+		task.class = classification
 	},
 
 	/**
@@ -505,7 +501,7 @@ const mutations = {
 	 * @param {string} data.status The status
 	 */
 	setStatus(state, { task, status }) {
-		Vue.set(task, 'status', status)
+		task.status = status
 	},
 
 	/**
@@ -517,7 +513,7 @@ const mutations = {
 	 * @param {number} data.order The sort order
 	 */
 	setSortOrder(state, { task, order }) {
-		Vue.set(task, 'sortOrder', order)
+		task.sortOrder = order
 	},
 
 	/**
@@ -532,7 +528,7 @@ const mutations = {
 	setDue(state, { task, due, allDay }) {
 		if (due === null) {
 			// If the date is null, just set (remove) it.
-			Vue.set(task, 'due', due)
+			task.due = due
 		} else {
 			// Check, that the due date is after the start date.
 			// If it is not, shift the start date to keep the difference between start and due equal.
@@ -544,10 +540,10 @@ const mutations = {
 				} else {
 					start = due.clone()
 				}
-				Vue.set(task, 'start', momentToICALTime(start, allDay))
+				task.start = momentToICALTime(start, allDay)
 			}
 			// Set the due date, convert it to ICALTime first.
-			Vue.set(task, 'due', momentToICALTime(due, allDay))
+			task.due = momentToICALTime(due, allDay)
 		}
 	},
 
@@ -563,7 +559,7 @@ const mutations = {
 	setStart(state, { task, start, allDay }) {
 		if (start === null) {
 			// If the date is null, just set (remove) it.
-			Vue.set(task, 'start', start)
+			task.start = start
 		} else {
 			// Check, that the start date is before the due date.
 			// If it is not, shift the due date to keep the difference between start and due equal.
@@ -575,10 +571,10 @@ const mutations = {
 				} else {
 					due = start.clone()
 				}
-				Vue.set(task, 'due', momentToICALTime(due, allDay))
+				task.due = momentToICALTime(due, allDay)
 			}
 			// Set the due date, convert it to ICALTime first.
-			Vue.set(task, 'start', momentToICALTime(start, allDay))
+			task.start = momentToICALTime(start, allDay)
 		}
 	},
 
@@ -589,7 +585,7 @@ const mutations = {
 	 * @param {Task} task The task
 	 */
 	toggleAllDay(state, task) {
-		Vue.set(task, 'allDay', !task.allDay)
+		task.allDay = !task.allDay
 	},
 
 	/**
@@ -601,7 +597,7 @@ const mutations = {
 	 * @param {Calendar} data.calendar The calendar to move the task to
 	 */
 	setTaskCalendar(state, { task, calendar }) {
-		Vue.set(task, 'calendar', calendar)
+		task.calendar = calendar
 	},
 
 	/**
@@ -613,7 +609,7 @@ const mutations = {
 	 * @param {string} data.related The uid of the related task
 	 */
 	setTaskParent(state, { task, related }) {
-		Vue.set(task, 'related', related)
+		task.related = related
 	},
 
 	/**
@@ -673,12 +669,12 @@ const mutations = {
 	},
 
 	addTaskForDeletion(state, { task }) {
-		Vue.set(state.deletedTasks, task.key, task)
+		state.deletedTasks[task.key] = task
 	},
 
 	clearTaskFromDeletion(state, { task }) {
 		if (state.deletedTasks[task.key] && task instanceof Task) {
-			Vue.delete(state.deletedTasks, task.key)
+			delete state.deletedTasks[task.key]
 		}
 	},
 
@@ -691,7 +687,7 @@ const mutations = {
 	 * @param {number} data.countdown The countdown value
 	 */
 	setTaskDeleteCountdown(state, { task, countdown }) {
-		Vue.set(task, 'deleteCountdown', countdown)
+		task.deleteCountdown = countdown
 	},
 }
 
@@ -751,7 +747,7 @@ const actions = {
 
 		if (!task.dav) {
 			const response = await task.calendar.dav.createVObject(vData)
-			Vue.set(task, 'dav', response)
+			task.dav = response
 			task.syncStatus = new SyncStatus('success', t('tasks', 'Successfully created the task.'))
 			context.commit('appendTask', task)
 			context.commit('addTaskToCalendar', task)
@@ -959,7 +955,7 @@ const actions = {
 		const response = await calendar.dav.find(taskUri)
 		if (response) {
 			const task = new Task(response.data, calendar)
-			Vue.set(task, 'dav', response)
+			task.dav = response
 			if (task.related) {
 				let parent = context.getters.getTaskByUid(task.related)
 				// If the parent is not found locally, we try to get it from the server.
@@ -1000,7 +996,7 @@ const actions = {
 		// We expect to only get zero or one task when we query by UID.
 		if (response.length) {
 			const task = new Task(response[0].data, calendar)
-			Vue.set(task, 'dav', response[0])
+			task.dav = response[0]
 			if (task.related) {
 				let parent = context.getters.getTaskByUid(task.related)
 				// If the parent is not found locally, we try to get it from the server.
@@ -1377,10 +1373,10 @@ const actions = {
 			const oldParent = context.getters.getTaskByUid(task.related)
 			context.commit('deleteTaskFromParent', { task, parent: oldParent })
 			// Link to new parent
-			Vue.set(task, 'related', parentId)
+			task.related = parentId
 			// Add task to new parents subtask list
 			if (parent) {
-				Vue.set(parent.subTasks, task.uid, task)
+				parent.subTasks[task.uid] = task
 				// If the parent is completed, we complete the task
 				if (parent.completed) {
 					await context.dispatch('setPercentComplete', { task, complete: 100 })

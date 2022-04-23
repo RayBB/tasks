@@ -47,15 +47,15 @@ License along with this library. If not, see <http://www.gnu.org/licenses/>.
 					</AppNavigationCounter>
 				</template>
 			</AppNavigationItem>
-			<draggable class="draggable-container"
+			<!-- <draggable class="draggable-container"
 				:set-data="setData"
 				v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
-				@update="update">
+				@update="update"> -->
 				<ListItemCalendar v-for="calendar in calendars"
 					:key="calendar.id"
 					:calendar="calendar"
 					@click="setInitialRoute(`/calendars/${calendar.id}`)" />
-			</draggable>
+			<!-- </draggable> -->
 			<AppNavigationItem v-click-outside="cancelCreate"
 				:title="t('tasks', 'Add List…')"
 				:class="{'collection--edit': creating}"
@@ -119,7 +119,7 @@ import Plus from 'vue-material-design-icons/Plus'
 import Star from 'vue-material-design-icons/Star'
 import TrendingUp from 'vue-material-design-icons/TrendingUp'
 
-import draggable from 'vuedraggable'
+// import draggable from 'vuedraggable'
 import ClickOutside from 'click-outside-vue3'
 import { mapState, mapGetters, mapActions } from 'vuex'
 
@@ -132,7 +132,7 @@ export default {
 		AppNavigationItem,
 		AppNavigationCounter,
 		AppNavigationSettings,
-		draggable,
+		// draggable,
 		CalendarToday,
 		CalendarWeek,
 		Check,

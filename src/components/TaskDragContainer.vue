@@ -20,25 +20,27 @@ License along with this library. If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <template>
-	<draggable tag="ol"
+	<!-- <draggable tag="ol"
 		:list="['']"
 		:set-data="setDragData"
 		v-bind="{group: 'tasks', swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3, disabled: disabled, filter: '.readOnly'}"
 		:move="onMove"
 		@add="onAdd"
-		@end="onEnd">
+		@end="onEnd"> -->
+	<ol>
 		<TaskBody v-for="task in sortedTasks"
 			:key="task.key"
 			:task="task"
 			:collection-string="collectionString" />
-	</draggable>
+	</ol>
+	<!-- </draggable> -->
 </template>
 
 <script>
 import Task from '../models/task.js'
 import { sort } from '../store/storeHelper.js'
 
-import draggable from 'vuedraggable'
+// import draggable from 'vuedraggable'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
@@ -54,7 +56,7 @@ export default {
 		 * @return {object} The TaskBody component
 		 */
 		TaskBody: () => import(/* webpackMode: "eager" */ './TaskBody.vue'),
-		draggable,
+		// draggable,
 	},
 	props: {
 		tasks: {

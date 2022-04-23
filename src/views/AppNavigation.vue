@@ -468,7 +468,7 @@ export default {
 <style lang="scss" scoped>
 $color-error: #e9322d;
 
-.collection::v-deep {
+:deep(.collection) {
 	&.collection--edit {
 		.app-navigation-entry-link {
 			display: none;

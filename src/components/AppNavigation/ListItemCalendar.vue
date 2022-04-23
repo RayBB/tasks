@@ -540,10 +540,10 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 $color-error: #e9322d;
 
-.list::v-deep {
+.list {
 	&.active .app-navigation-entry__icon-bullet > div {
 		height: 16px;
 		width: 16px;

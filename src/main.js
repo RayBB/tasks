@@ -39,7 +39,6 @@ import Tag from 'vue-material-design-icons/Tag'
 import TrendingUp from 'vue-material-design-icons/TrendingUp'
 
 import { createApp } from 'vue'
-import { sync } from 'vuex-router-sync'
 // eslint-disable-next-line import/no-named-as-default
 // import VueClipboard from 'vue-clipboard2'
 
@@ -57,8 +56,6 @@ __webpack_nonce__ = btoa(OC.requestToken)
 // We do not want the index.php since we're loading files
 // eslint-disable-next-line
 __webpack_public_path__ = linkTo('tasks', 'js/')
-
-sync(store, router)
 
 // Vue.use(VueClipboard)
 

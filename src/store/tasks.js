@@ -72,7 +72,7 @@ const getters = {
 	 * @return {Array<Task>} The tasks
 	 */
 	getTasksByRoute: (state, getters, rootState) => {
-		return getters.getTasksByCalendarId(rootState.route.params.calendarId)
+		return getters.getTasksByCalendarId(router.currentRoute.value.params.calendarId)
 	},
 
 	/**
@@ -120,17 +120,17 @@ const getters = {
 	 */
 	getTaskByRoute: (state, getters, rootState) => {
 		// If a calendar is given, only search in that calendar.
-		if (rootState.route.params.calendarId) {
-			const calendar = getters.getCalendarById(rootState.route.params.calendarId)
+		if (router.currentRoute.value.params.calendarId) {
+			const calendar = getters.getCalendarById(router.currentRoute.value.params.calendarId)
 			if (!calendar) {
 				return null
 			}
 			return Object.values(calendar.tasks).find(task => {
-				return task.uri === rootState.route.params.taskId
+				return task.uri === router.currentRoute.value.params.taskId
 			})
 		}
 		// Else, we have to search all calendars
-		return getters.getTaskByUri(rootState.route.params.taskId)
+		return getters.getTaskByUri(router.currentRoute.value.params.taskId)
 	},
 
 	/**
@@ -756,10 +756,10 @@ const actions = {
 
 			// In case the task is created in Talk, we don't have a route
 			// Only open the details view if there is enough space or if it is already open.
-			if (context.rootState.route !== undefined && (document.documentElement.clientWidth >= 768 || context.rootState.route?.params.taskId !== undefined)) {
+			if (router.currentRoute.value !== undefined && (document.documentElement.clientWidth >= 768 || router.currentRoute.value?.params.taskId !== undefined)) {
 				// Open the details view for the new task
-				const calendarId = context.rootState.route.params.calendarId
-				const collectionId = context.rootState.route.params.collectionId
+				const calendarId = router.currentRoute.value.params.calendarId
+				const collectionId = router.currentRoute.value.params.collectionId
 				if (calendarId) {
 					router.push({ name: 'calendarsTask', params: { calendarId, taskId: task.uri } })
 				} else if (collectionId) {
@@ -807,7 +807,7 @@ const actions = {
 			context.commit('deleteTaskFromParent', { task, parent })
 			context.commit('deleteTaskFromCalendar', task)
 			// If the task is open in the sidebar, close the sidebar
-			if (context.rootState.route.params.taskId === task.uri) {
+			if (router.currentRoute.value.params.taskId === task.uri) {
 				emit('tasks:close-appsidebar')
 			}
 			// Stop the delete timeout if no tasks are scheduled for deletion anymore

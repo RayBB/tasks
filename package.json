@@ -58,8 +58,7 @@
 		"vue-material-design-icons": "^5.0.0",
 		"vue-router": "^4.0.14",
 		"vuedraggable": "^4.1.0",
-		"vuex": "^4.0.2",
-		"vuex-router-sync": "^6.0.0-rc.1"
+		"vuex": "^4.0.2"
 	},
 	"devDependencies": {
 		"@nextcloud/babel-config": "^1.0.0",

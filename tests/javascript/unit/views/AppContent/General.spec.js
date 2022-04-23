@@ -1,7 +1,7 @@
 import General from 'Views/AppContent/General.vue'
 import router from '@/router.js'
 
-import { store, localVue } from '../../setupStore.js'
+import { store } from '../../setupStore.js'
 
 import { mount } from '@vue/test-utils'
 
@@ -11,8 +11,17 @@ describe('General.vue', () => {
 	/*
 	 * The all view shows uncompleted tasks
 	 */
-	it('Checks that we get the correct number of calendars for the all view', () => {
-		const wrapper = mount(General, { localVue, store, router })
+	it('Checks that we get the correct number of calendars for the all view', async () => {
+
+		router.push('/')
+		// After this line, router is ready
+		await router.isReady()
+
+		const wrapper = mount(General, {
+			global: {
+				plugins: [store, router],
+			},
+		})
 		if (wrapper.vm.$route.params.collectionId !== 'all') {
 			router.push({ name: 'collections', params: { collectionId: 'all' } })
 		}
@@ -20,7 +29,11 @@ describe('General.vue', () => {
 	})
 
 	it('Checks that only uncompleted and not cancelled tasks show in the all view', () => {
-		const wrapper = mount(General, { localVue, store, router })
+		const wrapper = mount(General, {
+			global: {
+				plugins: [store, router],
+			},
+		})
 		if (wrapper.vm.$route.params.collectionId !== 'all') {
 			router.push({ name: 'collections', params: { collectionId: 'all' } })
 		}
@@ -33,7 +46,11 @@ describe('General.vue', () => {
 	 * The starred view shows important and uncompleted tasks
 	 */
 	it('Checks that we get the correct number of calendars for the starred view', () => {
-		const wrapper = mount(General, { localVue, store, router })
+		const wrapper = mount(General, {
+			global: {
+				plugins: [store, router],
+			},
+		})
 		if (wrapper.vm.$route.params.collectionId !== 'starred') {
 			router.push({ name: 'collections', params: { collectionId: 'starred' } })
 		}
@@ -41,7 +58,11 @@ describe('General.vue', () => {
 	})
 
 	it('Checks that only important tasks show in the starred view', () => {
-		const wrapper = mount(General, { localVue, store, router })
+		const wrapper = mount(General, {
+			global: {
+				plugins: [store, router],
+			},
+		})
 		if (wrapper.vm.$route.params.collectionId !== 'starred') {
 			router.push({ name: 'collections', params: { collectionId: 'starred' } })
 		}
@@ -59,7 +80,11 @@ describe('General.vue', () => {
 	 * The current view shows uncompleted tasks which don't have a start date in the future
 	 */
 	it('Checks that we get the correct number of calendars for the current view', () => {
-		const wrapper = mount(General, { localVue, store, router })
+		const wrapper = mount(General, {
+			global: {
+				plugins: [store, router],
+			},
+		})
 		if (wrapper.vm.$route.params.collectionId !== 'current') {
 			router.push({ name: 'collections', params: { collectionId: 'current' } })
 		}
@@ -67,7 +92,11 @@ describe('General.vue', () => {
 	})
 
 	it('Checks that only current tasks show in the current view', () => {
-		const wrapper = mount(General, { localVue, store, router })
+		const wrapper = mount(General, {
+			global: {
+				plugins: [store, router],
+			},
+		})
 		if (wrapper.vm.$route.params.collectionId !== 'current') {
 			router.push({ name: 'collections', params: { collectionId: 'current' } })
 		}
@@ -84,7 +113,11 @@ describe('General.vue', () => {
 	 * The today view shows uncompleted tasks which started or are due today or earlier
 	 */
 	it('Checks that we get the correct number of calendars for the today view', () => {
-		const wrapper = mount(General, { localVue, store, router })
+		const wrapper = mount(General, {
+			global: {
+				plugins: [store, router],
+			},
+		})
 		if (wrapper.vm.$route.params.collectionId !== 'today') {
 			router.push({ name: 'collections', params: { collectionId: 'today' } })
 		}
@@ -92,7 +125,11 @@ describe('General.vue', () => {
 	})
 
 	it('Checks that only today tasks show in the today view', () => {
-		const wrapper = mount(General, { localVue, store, router })
+		const wrapper = mount(General, {
+			global: {
+				plugins: [store, router],
+			},
+		})
 		if (wrapper.vm.$route.params.collectionId !== 'today') {
 			router.push({ name: 'collections', params: { collectionId: 'today' } })
 		}
@@ -108,7 +145,11 @@ describe('General.vue', () => {
 	 * The completed view shows completed tasks
 	 */
 	it('Checks that we get the correct number of calendars for the completed view', () => {
-		const wrapper = mount(General, { localVue, store, router })
+				const wrapper = mount(General, {
+			global: {
+				plugins: [store, router],
+			},
+		})
 		if (wrapper.vm.$route.params.collectionId !== 'completed') {
 			router.push({ name: 'collections', params: { collectionId: 'completed' } })
 		}
@@ -116,7 +157,11 @@ describe('General.vue', () => {
 	})
 
 	it('Checks that only completed or cancelled tasks show in the completed view', () => {
-		const wrapper = mount(General, { localVue, store, router })
+				const wrapper = mount(General, {
+			global: {
+				plugins: [store, router],
+			},
+		})
 		if (wrapper.vm.$route.params.collectionId !== 'completed') {
 			router.push({ name: 'collections', params: { collectionId: 'completed' } })
 		}

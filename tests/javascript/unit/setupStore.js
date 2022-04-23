@@ -3,18 +3,13 @@ import collections from 'Store/collections.js'
 import tasks from 'Store/tasks.js'
 import settings from 'Store/settings.js'
 import Task from 'Models/task.js'
-import router from '@/router.js'
 
 import { loadICS } from '../../assets/loadAsset.js'
 
-import { createLocalVue } from '@vue/test-utils'
-import Vuex, { Store } from 'vuex'
-import { sync } from 'vuex-router-sync'
+import { createStore } from 'vuex'
+// import { sync } from 'vuex-router-sync'
 
-const localVue = createLocalVue()
-localVue.use(Vuex)
-
-const store = new Store({
+const store = createStore({
 	modules: {
 		calendars,
 		collections,
@@ -25,7 +20,7 @@ const store = new Store({
 
 // Sync router and store so that we can access
 // the router from within the store
-sync(store, router)
+// sync(store, router)
 
 const calendarsData = [
 	{
@@ -80,7 +75,7 @@ calendarsData.forEach(calendarData => {
 			url: `${calendar.id}/${task.uid}.ics`,
 			update: () => { return Promise.resolve(response) },
 		}
-		localVue.set(task, 'dav', response)
+		task.dav = response
 		return task
 	})
 	// Add subtasks correctly
@@ -95,7 +90,7 @@ calendarsData.forEach(calendarData => {
 				if (list[task.uid]) {
 					console.debug('Duplicate task overridden', list[task.uid], task)
 				}
-				localVue.set(list, task.uid, task)
+				list[task.uid] = task
 				return list
 			}, parent.subTasks)
 		}
@@ -105,4 +100,4 @@ calendarsData.forEach(calendarData => {
 	store.commit('appendTasksToCalendar', { calendar, tasks })
 })
 
-export { store, localVue }
+export { store }

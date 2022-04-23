@@ -69,10 +69,6 @@ if (!OCA.Tasks) {
 	OCA.Tasks = {}
 }
 
-// Vue.prototype.$OC = OC
-// Vue.prototype.$OCA = OCA
-// Vue.prototype.$appVersion = appVersion
-
 const Tasks = createApp(App)
 	.component('IconAlertBoxOutline', AlertBoxOutline)
 	.component('IconCalendarRemove', CalendarRemove)
@@ -84,6 +80,8 @@ const Tasks = createApp(App)
 	.component('IconPulse', Pulse)
 	.component('IconTag', Tag)
 	.component('IconTrendingUp', TrendingUp)
+	.provide('$OCA', OCA)
+	.provide('$appVersion', appVersion)
 	.use(router)
 	.use(store)
 	.mount('.app-tasks')

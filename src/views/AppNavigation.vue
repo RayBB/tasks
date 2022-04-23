@@ -145,6 +145,7 @@ export default {
 		clickOutside: ClickOutside.directive,
 		Tooltip,
 	},
+	inject: ['$OCA'],
 	data() {
 		return {
 			editing: '',

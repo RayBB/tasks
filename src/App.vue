@@ -49,6 +49,7 @@ export default {
 		AppContent,
 		Content,
 	},
+	inject: ['$OCA'],
 	data() {
 		return {
 			searchString: '',

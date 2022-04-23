@@ -101,7 +101,7 @@ export default {
 	},
 	mounted() {
 		// This ensures that the multiselect input is in focus as soon as the user clicks share
-		document.getElementById('users-groups-search').focus()
+		document.getElementById('users-groups-search')?.focus()
 	},
 	methods: {
 		/**

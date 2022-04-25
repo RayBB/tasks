@@ -39,12 +39,6 @@ import Tag from 'vue-material-design-icons/Tag'
 import TrendingUp from 'vue-material-design-icons/TrendingUp'
 
 import { createApp } from 'vue'
-// eslint-disable-next-line import/no-named-as-default
-// import VueClipboard from 'vue-clipboard2'
-
-// Disable on production
-// Vue.config.devtools = true
-// Vue.config.performance = true
 
 // CSP config for webpack dynamic chunk loading
 // eslint-disable-next-line

@@ -160,6 +160,7 @@ import Pencil from 'vue-material-design-icons/Pencil'
 import ShareVariant from 'vue-material-design-icons/ShareVariant'
 import Undo from 'vue-material-design-icons/Undo'
 
+import useClipboard from 'vue-clipboard3'
 import ClickOutside from 'click-outside-vue3'
 import { mapGetters, mapActions } from 'vuex'
 
@@ -428,7 +429,7 @@ export default {
 
 			// copy link for calendar to clipboard
 			try {
-				await this.$copyText(url)
+				await useClipboard().toClipboard(url)
 				event.preventDefault()
 				this.copySuccess = true
 				this.copied = true

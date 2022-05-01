@@ -30,7 +30,7 @@ import './css/dashboard.scss'
 import { generateFilePath } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
 
-import Vue from 'vue'
+import { createApp } from 'vue'
 
 // eslint-disable-next-line
 __webpack_nonce__ = btoa(getRequestToken())
@@ -38,15 +38,11 @@ __webpack_nonce__ = btoa(getRequestToken())
 // eslint-disable-next-line
 __webpack_public_path__ = generateFilePath('tasks', '', 'js/')
 
-Vue.prototype.$OCA = OCA
-
 document.addEventListener('DOMContentLoaded', () => {
 	OCA.Dashboard.register('tasks', (el) => {
-		const View = Vue.extend(Dashboard)
-		const vm = new View({
-			propsData: {},
-			store,
-		}).$mount(el)
-		return vm
+		const item = createApp(Dashboard)
+		.use(store)
+		.mount(el)
+		return item
 	})
 })

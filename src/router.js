@@ -25,40 +25,58 @@ import AppSidebar from './views/AppSidebar.vue'
 import Calendar from './views/AppContent/Calendar.vue'
 import Collections from './views/AppContent/Collections.vue'
 
-import { createWebHashHistory, createRouter } from 'vue-router'
+import { h } from 'vue'
+import { createWebHashHistory, createRouter, RouterView } from 'vue-router'
 
 const routes = [
-	// using
-	// { path: '/collections/all', component: CollectionGeneral, alias: '/' },
-	// instead of
 	{ path: '/', redirect: getInitialRoute() },
-	// would also be an option, but it currently does not work
-	// reliably with router-link due to
-	// https://github.com/vuejs/vue-router/issues/419
-	{ name: 'collections', path: '/collections/:collectionId', component: Collections, props: true },
 	{
-		name: 'collectionsTask',
-		path: '/collections/:collectionId/tasks/:taskId',
-		components: { default: Collections, sidebar: AppSidebar },
-		props: { default: true, sidebar: true },
+		path: '/collections/:collectionId',
+		components: {
+			default: { render: () => h(RouterView, { name: 'default' }) },
+			AppSidebar: { render: () => h(RouterView, { name: 'AppSidebar' }) },
+		},
+		children: [
+			{
+				name: 'collections',
+				path: '/collections/:collectionId',
+				component: Collections,
+				props: true
+			},
+			{
+				name: 'collectionsTask',
+				path: '/collections/:collectionId/tasks/:taskId',
+				components: { default: Collections, AppSidebar },
+				props: { default: true, AppSidebar: true },
+			},
+			{
+				name: 'collectionsParamTask',
+				path: '/collections/:collectionId/:collectionParam/tasks/:taskId',
+				components: { default: Collections, AppSidebar },
+				props: { default: true, AppSidebar: true },
+			},
+		]
 	},
 	{
-		name: 'collectionsParamTask',
-		path: '/collections/:collectionId/:collectionParam/tasks/:taskId',
-		components: { default: Collections, sidebar: AppSidebar },
-		props: { default: true, sidebar: true },
-	},
-	{
-		name: 'calendars',
 		path: '/calendars/:calendarId',
-		component: Calendar,
-		props: true,
-	},
-	{
-		name: 'calendarsTask',
-		path: '/calendars/:calendarId/tasks/:taskId',
-		components: { default: Calendar, sidebar: AppSidebar },
-		props: { default: true, sidebar: true },
+		components: {
+			default: { render: () => h(RouterView, { name: 'default' }) },
+			AppSidebar: { render: () => h(RouterView, { name: 'AppSidebar' }) },
+		},
+		children: [
+			{
+				name: 'calendars',
+				path: '/calendars/:calendarId',
+				component: Calendar,
+				props: true,
+			},
+			{
+				name: 'calendarsTask',
+				path: '/calendars/:calendarId/tasks/:taskId',
+				components: { default: Calendar, AppSidebar },
+				props: { default: true, AppSidebar: true },
+			},
+		]
 	},
 ]
 

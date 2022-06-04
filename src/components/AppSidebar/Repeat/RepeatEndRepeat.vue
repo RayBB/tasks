@@ -32,12 +32,12 @@
 			track-by="value"
 			label="label"
 			@select="changeEndType" />
-		<DatePicker v-if="isUntil"
+		<!-- <DatePicker v-if="isUntil"
 			class="repeat-option-end__until"
 			:min="minimumDate"
 			:date="until"
 			:is-all-day="true"
-			@change="changeUntil" />
+			@change="changeUntil" /> -->
 		<input v-if="isCount"
 			class="repeat-option-end__count"
 			type="number"
@@ -53,13 +53,13 @@
 </template>
 
 <script>
-import DatePicker from '../../Shared/DatePicker.vue'
+// import DatePicker from '../../Shared/DatePicker.vue'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 
 export default {
 	name: 'RepeatEndRepeat',
 	components: {
-	DatePicker,
+	// DatePicker,
 		Multiselect,
 	},
 	props: {

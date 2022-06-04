@@ -23,7 +23,8 @@
 
 <template>
 	<span v-if="display">
-		{{ recurrenceRule | formatRecurrenceRule(locale) }}
+		{{ recurrenceRule }}
+		<!-- | formatRecurrenceRule(locale) -->
 	</span>
 	<span v-else>
 		{{ $t('calendar', 'No recurrence') }}
@@ -32,12 +33,12 @@
 
 <script>
 import { mapState } from 'vuex'
-import formatRecurrenceRule from '../../../filters/recurrenceRuleFormat.js'
+// import formatRecurrenceRule from '../../../filters/recurrenceRuleFormat.js'
 
 export default {
 	name: 'RepeatSummary',
 	filters: {
-		formatRecurrenceRule,
+		// formatRecurrenceRule,
 	},
 	props: {
 		/**

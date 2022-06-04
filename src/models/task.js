@@ -267,11 +267,6 @@ export default class Task {
 
 	set complete(complete) {
 		this.setComplete(complete)
-		// console.log("set complete(complete)")
-		// this.constructor(this.vcalendar_original, this.calendar)
-		// console.log(myguy)
-		// console.log("this")
-		// console.log(this)
 		// Make complete a number
 		complete = +complete
 		if (complete < 100) {

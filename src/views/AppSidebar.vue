@@ -198,6 +198,14 @@ License along with this library. If not, see <http://www.gnu.org/licenses/>.
 					icon="IconTag"
 					@add-tag="updateTag"
 					@set-tags="updateTags" />
+				<!-- Adding a 2nd TagItems works no problem
+				But we need to figure out what to pass to repeat -->
+				<Repeat :calendar-object-instance="calendarObjectInstance"
+					:recurrence-rule="calendarObjectInstance.recurrenceRule"
+					:is-read-only="isReadOnly"
+					:is-editing-master-item="isEditingMasterItem"
+					:is-recurrence-exception="isRecurrenceException"
+					@force-this-and-all-future="forceModifyingFuture" />
 			</div>
 		</AppSidebarTab>
 		<EmptyContent v-else

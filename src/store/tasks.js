@@ -1034,6 +1034,7 @@ const actions = {
 	 * @param {Task} task The task to update
 	 */
 	async toggleCompleted(context, task) {
+		// Probably where we need to modify for recurrance
 		// Don't try to edit tasks in read-only calendars
 		if (task.calendar.readOnly) {
 			return

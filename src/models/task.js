@@ -52,6 +52,7 @@ export default class Task {
 		this.jCal = jCal
 		this.calendar = calendar
 		this.vCalendar = new ICAL.Component(this.jCal)
+		// this.vcalendar_original = vcalendar
 
 		this.subTasks = {}
 

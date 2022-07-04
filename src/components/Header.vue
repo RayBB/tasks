@@ -71,7 +71,7 @@ export default {
 			case 'current':
 				return t('tasks', 'Add a current task to "{calendar}"…', { calendar: this.calendar.displayName }, undefined, { sanitize: false, escape: false })
 			default:
-				return t('tasks', 'Add a task to "{calendar}"…', { calendar: this.calendar.displayName }, undefined, { sanitize: false, escape: false })
+				return t('tasks', 'Add a task to "{calendar}"… (dev code loaded)', { calendar: this.calendar.displayName }, undefined, { sanitize: false, escape: false })
 			}
 		},
 	},

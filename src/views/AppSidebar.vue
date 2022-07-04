@@ -190,6 +190,22 @@ License along with this library. If not, see <http://www.gnu.org/licenses/>.
 					icon="IconTag"
 					@add-tag="updateTag"
 					@set-tags="updateTags" />
+				<TagsItem v-show="!readOnly || task.tags.length > 0"
+					:options="tags"
+					:tags="task.tags"
+					:disabled="readOnly"
+					:placeholder="t('tasks', 'Select tags')"
+					icon="IconTag"
+					@add-tag="updateTag"
+					@set-tags="updateTags" />
+				<!-- Adding a 2nd TagItems works no problem
+				But we need to figure out what to pass to repeat -->
+				<Repeat :calendar-object-instance="calendarObjectInstance"
+					:recurrence-rule="calendarObjectInstance.recurrenceRule"
+					:is-read-only="isReadOnly"
+					:is-editing-master-item="isEditingMasterItem"
+					:is-recurrence-exception="isRecurrenceException"
+					@force-this-and-all-future="forceModifyingFuture" />
 			</div>
 		</AppSidebarTab>
 		<EmptyContent v-else
@@ -236,6 +252,7 @@ import CalendarPickerItem from '../components/AppSidebar/CalendarPickerItem.vue'
 import MultiselectItem from '../components/AppSidebar/MultiselectItem.vue'
 import SliderItem from '../components/AppSidebar/SliderItem.vue'
 import TagsItem from '../components/AppSidebar/TagsItem.vue'
+import Repeat from '../components/AppSidebar/Repeat/Repeat.vue'
 import NotesItem from '../components/AppSidebar/NotesItem.vue'
 import TaskCheckbox from '../components/TaskCheckbox.vue'
 // import TaskStatusDisplay from '../components/TaskStatusDisplay'
@@ -292,6 +309,7 @@ export default {
 		MultiselectItem,
 		SliderItem,
 		TagsItem,
+		Repeat,
 		CalendarPickerItem,
 		NotesItem,
 		TaskCheckbox,
